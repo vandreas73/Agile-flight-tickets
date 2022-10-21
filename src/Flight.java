@@ -16,6 +16,6 @@ public class Flight {
 	@Override
 	public String toString() {
 		return "Departure: " + departureDate + " " + departureCity + "\n"
-				+ "Arrival: " + arrivalDate + " " + arrivalCity;
+				+ "\tArrival: " + arrivalDate + " " + arrivalCity;
 	}
 }
