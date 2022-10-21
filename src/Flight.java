@@ -12,4 +12,10 @@ public class Flight {
 		this.arrivalCity = arrivalCity;
 		this.arrivalDate = arrivalDate;
 	}
+	
+	@Override
+	public String toString() {
+		return "Departure: " + departureDate + " " + departureCity + "\n"
+				+ "Arrival: " + arrivalDate + " " + arrivalCity;
+	}
 }

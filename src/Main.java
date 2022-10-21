@@ -14,20 +14,25 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
     	
 		commands.put("search", Main::search);
-    	commands.put("saveJourney", Main::saveJourney);
+		commands.put("saveJourney", Main::saveJourney);
+    	commands.put("getSavedJourneys", Main::getSavedJourneys);
 
     	// on exit we call System.exit
     	commands.put("exit", (s)->{sc.close(); System.exit(0);});
     	
 
-        while (true) {
+        while (sc.hasNext()) {
             String line = sc.nextLine();
             String[] cmd = line.split(" ");
             
             
             Command c = commands.get(cmd[0]);
             if (c!=null) {
-            	c.execute(cmd);
+            	try{
+            		c.execute(cmd);
+            	} catch (Exception e) {
+            		System.out.println("Hibás formátum");
+            	}
             } else {
             	System.out.println("No such command: "+cmd);
             }
@@ -44,39 +49,41 @@ public class Main {
 	}
 	
 	
-	private static void search(String[] args) {
-		String[] line = inputLine("When, city of departure, city of arrival.", "1970-08-08 Budapest Paris");
+	private static void search(String[] args) throws Exception {
+		//String[] line = inputLine("When, city of departure, city of arrival.", "1970-08-08 Budapest Paris");
 
-		try{
-			Date departureDate = Date.valueOf(line[1]);
-			String departureCity = line[2];
-			String arrivalCity = line[3];
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			Date departureDate = Date.valueOf(args[1]);
+			String departureCity = args[2];
+			String arrivalCity = args[3];
 		
 	}
 	
-	private static ArrayList<Journey> listJournies(Date departureDate, String departureCity, String arrivalCity){
+	private static ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity){
 		//TODO: járatok keresése
-		return new ArrayList<Journey>();
+		ArrayList<Journey> journeys = new ArrayList<>();
+		journeys.add(new Journey());
+		journeys.get(0).addFlight(new Flight(Date.valueOf("2022-10-21"), "Budapest", Date.valueOf("2022-10-21"), "Berlin"));
+		return journeys;
 	}
 	
-	private static void saveJourney(String[] args) {
-		String[] line = inputLine("When, city of departure, city of arrival.", "1970-08-08 Budapest Paris");
+	private static void saveJourney(String[] args) throws Exception {
+		//String[] line = inputLine("When, city of departure, city of arrival.", "1970-08-08 Budapest Paris");
 		
-		ArrayList<Journey> journies;
-		try{
-			Date departureDate = Date.valueOf(line[0]);
-			String departureCity = line[1];
-			String arrivalCity = line[2];
-			journies = listJournies(departureDate, departureCity, arrivalCity);
-			String[] line2 = inputLine("Which journey do you want to save?", "1");
-			savedJourneys.add(journies.get(Integer.parseInt(line2[0])));
-		} catch (Exception e) {
-			e.printStackTrace();
+		ArrayList<Journey> journeys;
+		Date departureDate = Date.valueOf(args[1]);
+		String departureCity = args[2];
+		String arrivalCity = args[3];
+		int id = Integer.parseInt(args[4]);
+		journeys = listJourneys(departureDate, departureCity, arrivalCity);
+		//String[] line2 = inputLine("Which journey do you want to save?", "1");
+		savedJourneys.add(journeys.get(id));
+		
+	}
+	
+	private static void getSavedJourneys(String[] args) throws Exception {
+		for (Journey journey : savedJourneys) {
+			System.out.println(journey);
 		}
-		
 	}
 	
 	
