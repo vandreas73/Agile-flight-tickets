@@ -31,21 +31,28 @@ public class Control {
 		return journeys;
 	}
 
-	void saveJourney(Date departureDate, String departureCity, String arrivalCity, int id) throws Exception {
+	Boolean saveJourney(Date departureDate, String departureCity, String arrivalCity, int id) throws Exception {
 		ArrayList<Journey> journeys;
 		journeys = listJourneys(departureDate, departureCity, arrivalCity);
 		// String[] line2 = inputLine("Which journey do you want to save?", "1");
 		savedJourneys = getSavedJourneys();
 		savedJourneys.add(journeys.get(id));
+		if (persistJourneys(journeys))
+			return true;
+		else
+			return false;
+	}
+	
+	Boolean persistJourneys(ArrayList<Journey> journeys) {
 		try {
 			File f = new File("save.txt");
 			FileOutputStream fos = new FileOutputStream(f);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(savedJourneys);
+			oos.writeObject(journeys);
+			return true;
 		} catch (Exception e) {
-			System.out.println("Couldn't be saved.");
+			return false;
 		}
-		System.out.println("Saved succesfully.");
 	}
 
 	ArrayList<Journey> getSavedJourneys() throws Exception {
@@ -61,6 +68,21 @@ public class Control {
 		}
 	}
 	
+	Boolean deleteSavedJourney(int index) throws Exception {
+		var journeys = getSavedJourneys();
+		try {
+			journeys.remove(index);
+			persistJourneys(journeys);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
 	
+	void clearSavedJourneys() {
+		var empty = new ArrayList<Journey>();
+		persistJourneys(empty);
+	}
 
 }

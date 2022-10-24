@@ -15,13 +15,15 @@ public class ConsoleView {
 		commands.put("search", (s -> search(s)));
 		commands.put("saveJourney", s -> saveJourney(s));
     	commands.put("getSavedJourneys", s -> getSavedJourneys(s));
+    	commands.put("deleteSavedJourney", s -> deleteSavedJourney(s));
+    	commands.put("clearSavedJourneys", s -> clearSavedJourneys(s));
 
     	commands.put("help", s -> help(s));
     	// on exit we call System.exit
     	commands.put("exit", (s)->{sc.close(); System.exit(0);});
     	
 
-        while (true) {
+        while (sc.hasNext()) {
             String line = sc.nextLine();
             String[] cmd = line.split(" ");
             
@@ -40,13 +42,17 @@ public class ConsoleView {
 	}
 	
 	private void help(String[] args) {
-		System.out.println("The expected input:\n"
+		System.out.println("The expected input:\n\n"
 				+ "search when departureCity arrivalCity\n"
-				+ "example: search 1970-08-08 Budapest Paris\n\n"
+				+ "\texample: search 1970-08-08 Budapest Paris\n\n"
 				+ "saveJourney when departureCity arrivalCity searchId\n"
-				+ "example: saveJourney 1970-08-08 Budapest Paris 0\n\n"
+				+ "\texample: saveJourney 1970-08-08 Budapest Paris 0\n\n"
 				+ "getSavedJourneys\n"
-				+ "example: getSavedJourneys");
+				+ "\texample: getSavedJourneys\n\n"
+				+ "deleteSavedJourney index\n"
+				+ "\texample: deleteSavedJourney 0\n\n"
+				+ "clearSavedJourneys\n"
+				+ "\t example: clearSavedJourneys\n\n");
 	}
 	
 	void search(String[] args) throws Exception {
@@ -65,20 +71,34 @@ public class ConsoleView {
 		String arrivalCity = args[3];
 		int id = Integer.parseInt(args[4]);
 		
-		control.saveJourney(departureDate, departureCity, arrivalCity, id);
+		if (control.saveJourney(departureDate, departureCity, arrivalCity, id))
+			System.out.println("Saved succesfully.");
+		else
+			System.out.println("Couldn't save.");
 	}
 	
 	void getSavedJourneys(String[] args) throws Exception {
-		printJourneys(control.getSavedJourneys());
+		var journeys = control.getSavedJourneys();
+		printJourneys(journeys);
+		if (journeys.isEmpty()) System.out.println("No journeys saved.");
+		
 	}
 	
-//	void deleteSavedJourney(String[] args) throws Exception {
-//		
-//	}
+	void deleteSavedJourney(String[] args) throws Exception {
+		if (control.deleteSavedJourney(Integer.parseInt(args[1])))
+			System.out.println("Deleted succesfully.");
+		else {
+			System.out.println("Couldn't delete");
+		}
+	}
 	
 	private void printJourneys(List<Journey> journeyList) {
 		for (int i = 0; i < journeyList.size(); i++) {
         	System.out.println(i + ". journey:\n" + journeyList.get(i));
 		}
+	}
+	
+	void clearSavedJourneys(String[] args) {
+		control.clearSavedJourneys();
 	}
 }
