@@ -1,3 +1,9 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,43 +14,53 @@ import java.util.Scanner;
 public class Control {
 	private List<Journey> savedJourneys = new ArrayList<>();
 
-	
-	
 	private String[] inputLine(String command, String exampleFormat) {
-		System.out.println(command +
-				"\nExample: " + exampleFormat);
+		System.out.println(command + "\nExample: " + exampleFormat);
 		Scanner sc = new Scanner(System.in);
 		String[] line = sc.nextLine().split(" ");
 		sc.close();
 		return line;
 	}
-	
-	
-	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity){
-		//TODO: járatok keresése
+
+	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) {
+		// TODO: járatok keresése
 		ArrayList<Journey> journeys = new ArrayList<>();
 		Journey j1 = new Journey();
 		j1.addFlight(new Flight(Date.valueOf("2022-10-21"), "Budapest", Date.valueOf("2022-10-21"), "Berlin"));
 		journeys.add(j1);
 		return journeys;
 	}
-	
+
 	void saveJourney(Date departureDate, String departureCity, String arrivalCity, int id) throws Exception {
 		ArrayList<Journey> journeys;
 		journeys = listJourneys(departureDate, departureCity, arrivalCity);
-		//String[] line2 = inputLine("Which journey do you want to save?", "1");
+		// String[] line2 = inputLine("Which journey do you want to save?", "1");
+		savedJourneys = getSavedJourneys();
 		savedJourneys.add(journeys.get(id));
+		try {
+			File f = new File("save.txt");
+			FileOutputStream fos = new FileOutputStream(f);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(savedJourneys);
+		} catch (Exception e) {
+			System.out.println("Couldn't be saved.");
+		}
 		System.out.println("Saved succesfully.");
 	}
-	
-	void getSavedJourneys() throws Exception {
-		for (Journey journey : savedJourneys) {
-			System.out.println(journey);
+
+	ArrayList<Journey> getSavedJourneys() throws Exception {
+		try {
+			FileInputStream fis = new FileInputStream("save.txt");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			ArrayList<Journey> woi=new ArrayList<>();
+	        woi=(ArrayList<Journey>)ois.readObject();
+	        return woi;
+		} catch (Exception e) {
+			System.out.println("Something went wrong.");
+			return null;
 		}
 	}
 	
 	
-	
 
 }
-

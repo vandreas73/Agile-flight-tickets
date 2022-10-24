@@ -1,6 +1,7 @@
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -54,9 +55,7 @@ public class ConsoleView {
 		String arrivalCity = args[3];
 		
 		ArrayList<Journey> journeys = control.listJourneys(departureDate, departureCity, arrivalCity);
-		for (Journey journey : journeys) {
-			System.out.println(journey.toString());
-		}
+		printJourneys(journeys);
 	}
 	
 	void saveJourney(String[] args) throws Exception {
@@ -70,6 +69,16 @@ public class ConsoleView {
 	}
 	
 	void getSavedJourneys(String[] args) throws Exception {
-		control.getSavedJourneys();
+		printJourneys(control.getSavedJourneys());
+	}
+	
+//	void deleteSavedJourney(String[] args) throws Exception {
+//		
+//	}
+	
+	private void printJourneys(List<Journey> journeyList) {
+		for (int i = 0; i < journeyList.size(); i++) {
+        	System.out.println(i + ". journey:\n" + journeyList.get(i));
+		}
 	}
 }

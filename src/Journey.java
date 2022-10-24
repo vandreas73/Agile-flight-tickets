@@ -1,9 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class Journey {
+public class Journey implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private List<Flight> flights = new ArrayList<>();
 	
 	public void addFlight(Flight flight) {
@@ -19,7 +21,7 @@ public class Journey {
 		var out = new ArrayList<>();
 		StringJoiner flightJoiner = new StringJoiner(", ");
 		for (int i = 0; i < flights.size(); ++i) {
-			flightJoiner.add(i + ".\t" + flights.get(i).toString());
+			flightJoiner.add("\t" + i + ". flight\t" + flights.get(i).toString());
 		}
 		return flightJoiner.toString();
 	}
