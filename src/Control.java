@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,13 +23,9 @@ public class Control {
 		return line;
 	}
 
-	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) {
-		// TODO: járatok keresése
-		ArrayList<Journey> journeys = new ArrayList<>();
-		Journey j1 = new Journey();
-		j1.addFlight(new Flight(Date.valueOf("2022-10-21"), "Budapest", Date.valueOf("2022-10-21"), "Berlin"));
-		journeys.add(j1);
-		return journeys;
+	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) throws ParseException {
+		JourneySearcher searcher = new JourneySearcher();
+		return searcher.getJourneys(departureDate, departureCity, arrivalCity);
 	}
 
 	Boolean saveJourney(Date departureDate, String departureCity, String arrivalCity, int id) throws Exception {

@@ -12,7 +12,7 @@ public class ConsoleView {
 		Map<String,Command> commands = new HashMap<>();
 		Scanner sc = new Scanner(System.in);
     	
-		commands.put("search", (s -> search(s)));
+		commands.put("search", s -> search(s));
 		commands.put("saveJourney", s -> saveJourney(s));
     	commands.put("getSavedJourneys", s -> getSavedJourneys(s));
     	commands.put("deleteSavedJourney", s -> deleteSavedJourney(s));
@@ -93,6 +93,10 @@ public class ConsoleView {
 	}
 	
 	private void printJourneys(List<Journey> journeyList) {
+		if (journeyList.isEmpty()) {
+			System.out.println("No journey in this date");
+			return;
+		}
 		for (int i = 0; i < journeyList.size(); i++) {
         	System.out.println(i + ". journey:\n" + journeyList.get(i));
 		}
