@@ -15,14 +15,6 @@ import java.util.Scanner;
 public class Control {
 	private List<Journey> savedJourneys = new ArrayList<>();
 
-	private String[] inputLine(String command, String exampleFormat) {
-		System.out.println(command + "\nExample: " + exampleFormat);
-		Scanner sc = new Scanner(System.in);
-		String[] line = sc.nextLine().split(" ");
-		sc.close();
-		return line;
-	}
-
 	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) throws ParseException {
 		JourneySearcher searcher = new JourneySearcher();
 		return searcher.getJourneys(departureDate, departureCity, arrivalCity);

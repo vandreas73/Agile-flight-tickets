@@ -46,7 +46,7 @@ public class ConsoleView {
 				+ "search when departureCity arrivalCity\n"
 				+ "\texample: search 2023-08-21 Liverpool Madrid\n\n"
 				+ "saveJourney when departureCity arrivalCity searchId\n"
-				+ "\texample: saveJourney 1970-08-08 Budapest Paris 0\n\n"
+				+ "\texample: saveJourney 2023-08-21 Liverpool Madrid 0\n\n"
 				+ "getSavedJourneys\n"
 				+ "\texample: getSavedJourneys\n\n"
 				+ "deleteSavedJourney index\n"
