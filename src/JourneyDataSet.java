@@ -4,6 +4,10 @@ import java.util.ArrayList;
 public class JourneyDataSet {
     private ArrayList<JourneyData> journeyDatas;
 
+    // itt se volt instanció
+    public JourneyDataSet() {
+        journeyDatas = new ArrayList<>();
+    }
 
     public int getJourneyNum() {
         return journeyDatas.size();
