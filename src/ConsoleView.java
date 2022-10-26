@@ -17,6 +17,7 @@ public class ConsoleView {
     	commands.put("getSavedJourneys", s -> getSavedJourneys(s));
     	commands.put("deleteSavedJourney", s -> deleteSavedJourney(s));
     	commands.put("clearSavedJourneys", s -> clearSavedJourneys(s));
+		commands.put("sortFlightsByPrice", this::sortFlightsByPrice);
 
     	commands.put("help", s -> help(s));
     	// on exit we call System.exit
@@ -52,7 +53,9 @@ public class ConsoleView {
 				+ "deleteSavedJourney index\n"
 				+ "\texample: deleteSavedJourney 0\n\n"
 				+ "clearSavedJourneys\n"
-				+ "\t example: clearSavedJourneys\n\n");
+				+ "\t example: clearSavedJourneys\n\n"
+				+ "sortFlightsByPrice\n"
+				+ "\t example: sortFlightsByPrice Budapest");
 	}
 	
 	void search(String[] args) throws Exception {
@@ -104,5 +107,32 @@ public class ConsoleView {
 	
 	void clearSavedJourneys(String[] args) {
 		control.clearSavedJourneys();
+	}
+
+	void sortFlightsByPrice(String[] args) {
+		var out = new ArrayList<String[]>();
+		var data = new DataBase().data;
+
+		data.forEach( d -> {
+			if (d[1].equals(args[1]))
+				out.add(d);
+		});
+
+		if (out.isEmpty()) {
+			System.out.println("No such departure city");
+			return;
+		}
+
+		out.sort((c1, c2) -> {
+			if (c1[4].equals(c2[4]))
+				return 0;
+			else if (Integer.parseInt(c1[4]) > Integer.parseInt(c2[4]))
+				return 1;
+			else
+				return -1;
+		});
+
+		System.out.println("From " + args[1] + " to:");
+		out.forEach(c -> System.out.println("\t" + c[3] + " for: " + c[4]));
 	}
 }
