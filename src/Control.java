@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Control {
-	private List<Journey> savedJourneys = new ArrayList<>();
+	private ArrayList<Journey> savedJourneys = new ArrayList<>();
 
 	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) throws ParseException {
 		JourneySearcher searcher = new JourneySearcher();
@@ -21,15 +21,13 @@ public class Control {
 	}
 
 	Boolean saveJourney(Date departureDate, String departureCity, String arrivalCity, int id) throws Exception {
-		ArrayList<Journey> journeys;
-		journeys = listJourneys(departureDate, departureCity, arrivalCity);
+		ArrayList<Journey> journeys = listJourneys(departureDate, departureCity, arrivalCity);
 		// String[] line2 = inputLine("Which journey do you want to save?", "1");
 		savedJourneys = getSavedJourneys();
 		savedJourneys.add(journeys.get(id));
-		if (persistJourneys(journeys))
+		if (persistJourneys(savedJourneys))
 			return true;
-		else
-			return false;
+		return false;
 	}
 	
 	Boolean persistJourneys(ArrayList<Journey> journeys) {
@@ -53,7 +51,7 @@ public class Control {
 	        return woi;
 		} catch (Exception e) {
 			System.out.println("Something went wrong.");
-			return null;
+			return new ArrayList<>();
 		}
 	}
 	

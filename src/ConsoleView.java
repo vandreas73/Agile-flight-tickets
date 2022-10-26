@@ -64,11 +64,13 @@ public class ConsoleView {
 		String arrivalCity = args[3];
 		
 		ArrayList<Journey> journeys = control.listJourneys(departureDate, departureCity, arrivalCity);
+		if (journeys.isEmpty()){
+			System.out.println("No journey in this date");
+		}
 		printJourneys(journeys);
 	}
 	
 	void saveJourney(String[] args) throws Exception {
-		ArrayList<Journey> journeys;
 		Date departureDate = Date.valueOf(args[1]);
 		String departureCity = args[2];
 		String arrivalCity = args[3];
@@ -97,7 +99,6 @@ public class ConsoleView {
 	
 	private void printJourneys(List<Journey> journeyList) {
 		if (journeyList.isEmpty()) {
-			System.out.println("No journey in this date");
 			return;
 		}
 		for (int i = 0; i < journeyList.size(); i++) {
