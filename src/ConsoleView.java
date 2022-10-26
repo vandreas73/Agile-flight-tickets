@@ -44,7 +44,7 @@ public class ConsoleView {
 	private void help(String[] args) {
 		System.out.println("The expected input:\n\n"
 				+ "search when departureCity arrivalCity\n"
-				+ "\texample: search 1970-08-08 Budapest Paris\n\n"
+				+ "\texample: search 2023-08-21 Liverpool Madrid\n\n"
 				+ "saveJourney when departureCity arrivalCity searchId\n"
 				+ "\texample: saveJourney 1970-08-08 Budapest Paris 0\n\n"
 				+ "getSavedJourneys\n"
