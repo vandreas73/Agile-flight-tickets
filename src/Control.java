@@ -3,31 +3,19 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.sql.Date;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class Control {
-	private ArrayList<Journey> savedJourneys = new ArrayList<>();
-
-	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) throws ParseException {
-		JourneySearcher searcher = new JourneySearcher();
-		return searcher.getJourneys(departureDate, departureCity, arrivalCity);
-	}
-
-	Boolean saveJourney(Date departureDate, String departureCity, String arrivalCity, int id) throws Exception {
-		ArrayList<Journey> journeys = listJourneys(departureDate, departureCity, arrivalCity);
-		// String[] line2 = inputLine("Which journey do you want to save?", "1");
-		savedJourneys = getSavedJourneys();
-		savedJourneys.add(journeys.get(id));
-		if (persistJourneys(savedJourneys))
+	
+	public boolean saveJourney(Journey j) {
+		try{
+			var savedJourneys = getSavedJourneys();
+			savedJourneys.add(j);
+			persistJourneys(savedJourneys);
 			return true;
-		return false;
+		} finally {
+			return false;
+		}
 	}
 	
 	Boolean persistJourneys(ArrayList<Journey> journeys) {
@@ -41,8 +29,8 @@ public class Control {
 			return false;
 		}
 	}
-
-	ArrayList<Journey> getSavedJourneys() throws Exception {
+	
+	public ArrayList<Journey> getSavedJourneys(){
 		try {
 			FileInputStream fis = new FileInputStream("save.txt");
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -53,23 +41,6 @@ public class Control {
 			System.out.println("Something went wrong.");
 			return new ArrayList<>();
 		}
-	}
-	
-	Boolean deleteSavedJourney(int index) throws Exception {
-		var journeys = getSavedJourneys();
-		try {
-			journeys.remove(index);
-			persistJourneys(journeys);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-		
-	}
-	
-	void clearSavedJourneys() {
-		var empty = new ArrayList<Journey>();
-		persistJourneys(empty);
 	}
 
 }
