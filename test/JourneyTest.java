@@ -11,6 +11,8 @@ class JourneyTest {
 	@BeforeEach
 	void setUp() {
 		journey = new Journey();
+		Flight f = new Flight("2022-11-02", "Budapest", "2022-11-03", "Paris");
+		journey.addFlight(f);
 	}
 
 	@Test
@@ -19,6 +21,12 @@ class JourneyTest {
 		journey.addFlight(f);
 		var flights = journey.getFlights();
 		Assertions.assertTrue(flights.contains(f));
+	}
+	
+	@Test
+	void getFlights() {
+		var flights = journey.getFlights();
+		assertNotNull(flights);
 	}
 	
 	

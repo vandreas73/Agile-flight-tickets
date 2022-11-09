@@ -3,17 +3,26 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Control {
 	
-	public boolean saveJourney(Journey j) {
+	boolean saveJourney(Journey j) {
 		try{
-			var savedJourneys = getSavedJourneys();
+			ArrayList<Journey> savedJourneys;
+			try {
+				savedJourneys = getSavedJourneys();
+			} catch (Exception e) {
+				System.out.println("getsavedjourneys");
+				savedJourneys = new ArrayList<>();
+			} 
 			savedJourneys.add(j);
 			persistJourneys(savedJourneys);
 			return true;
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -30,16 +39,40 @@ public class Control {
 		}
 	}
 	
-	public ArrayList<Journey> getSavedJourneys(){
+	ArrayList<Journey> getSavedJourneys(){
 		try {
-			FileInputStream fis = new FileInputStream("save.txt");
+			var f = new File("save.txt");
+			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			ArrayList<Journey> woi=new ArrayList<>();
 	        woi=(ArrayList<Journey>)ois.readObject();
 	        return woi;
 		} catch (Exception e) {
-			System.out.println("Something went wrong.");
+			e.printStackTrace();
 			return new ArrayList<>();
+		}
+	}
+	
+	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) {
+		//TODO
+		ArrayList<Journey> journeys = new ArrayList<>();
+		var journey = new Journey();
+		journey.addFlight(new Flight(departureDate, departureCity, departureDate, arrivalCity));
+		journeys.add(journey);
+		return journeys;
+	}
+
+	void clearSavedJourneys() {
+		persistJourneys(new ArrayList<Journey>());
+	}
+
+	public void deleteSavedJourney(int index) throws IndexOutOfBoundsException {
+		var savedJourneys = getSavedJourneys();
+		try {
+			savedJourneys.remove(index);
+			persistJourneys(savedJourneys);
+		} catch (IndexOutOfBoundsException e) {
+			throw e;
 		}
 	}
 

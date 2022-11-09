@@ -1,8 +1,10 @@
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Flight {
+public class Flight implements Serializable{
+	private static final long serialVersionUID = 1L;
 	Date departureDate;
 	String departureCity;
 	Date arrivalDate;
