@@ -1,9 +1,31 @@
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MockupDB {
     String dataBaseConnection;
+
+    ArrayList<Flight> data;
+
     MockupDB(String dataBaseConnection) {
         this.dataBaseConnection = dataBaseConnection;
+    }
+
+    public final void setUpInitialData() {
+        var list = new ArrayList<Flight>();
+        list.add(new Flight(new Date(2022-11-10), "Budapest", new Date(2022-11-10), "Hamburg", 50));
+        list.add(new Flight(new Date(2022-11-10), "Nokia", new Date(2022-11-10), "Budapest", 80));
+        list.add(new Flight(new Date(2022-11-10), "Bratislava", new Date(2022-11-10), "Milano", 35));
+        list.add(new Flight(new Date(2022-11-10), "Budapest", new Date(2022-11-10), "London", 42));
+        list.add(new Flight(new Date(2022-11-10), "Vienna", new Date(2022-11-10), "Bern", 25));
+        list.add(new Flight(new Date(2022-11-10), "Bern", new Date(2022-11-10), "Vienna", 39));
+        list.add(new Flight(new Date(2022-11-10), "Warsaw", new Date(2022-11-10), "Brussels", 46));
+        list.add(new Flight(new Date(2022-11-10), "Madrid", new Date(2022-11-10), "Istanbul", 79));
+        list.add(new Flight(new Date(2022-11-10), "Dublin", new Date(2022-11-10), "Oslo", 82));
+        list.add(new Flight(new Date(2022-11-10), "Edinburgh", new Date(2022-11-10), "Cardiff", 18));
+        list.add(new Flight(new Date(2022-11-10), "Porto", new Date(2022-11-10), "Barcelona", 34));
+
+        data = new ArrayList<>();
+        data.addAll(list);
     }
 
     public Journey[] selectJourneysFromTo(String departureCity, String arriveCity) {

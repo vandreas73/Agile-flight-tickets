@@ -9,12 +9,21 @@ public class Flight implements Serializable{
     String departureCity;
     Date arrivalDate;
     String arrivalCity;
+    int price;
 
     public Flight (Date departureDate, String departureCity, Date arrivalDate, String arrivalCity) {
         this.departureDate = departureDate;
         this.departureCity = departureCity;
         this.arrivalDate = arrivalDate;
         this.arrivalCity = arrivalCity;
+    }
+
+    public Flight (Date departureDate, String departureCity, Date arrivalDate, String arrivalCity, int price) {
+        this.departureDate = departureDate;
+        this.departureCity = departureCity;
+        this.arrivalDate = arrivalDate;
+        this.arrivalCity = arrivalCity;
+        this.price = price;
     }
 
     public Flight (String departureDate, String departureCity, String arrivalDate, String arrivalCity) {
