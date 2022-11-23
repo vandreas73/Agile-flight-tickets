@@ -28,6 +28,14 @@ public class MockupDB {
         data.addAll(list);
     }
 
+    public final void addData(Flight flight) {
+        data.add(flight);
+    }
+
+    public final void removeAll() {
+        data.clear();
+    }
+
     public Journey[] selectJourneysFromTo(String departureCity, String arriveCity) {
         Journey journey1 = new Journey();
         Journey journey2 = new Journey();

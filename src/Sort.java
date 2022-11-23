@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Sort {
 
@@ -13,7 +14,15 @@ public class Sort {
         return db == null;
     }
 
-    public ArrayList<Flight> sortDatabaseByDeparture(String destination) {
-        return null;
+    public void sortDatabaseByPrice() {
+        db.data.sort(Comparator.comparingInt(f -> f.price));
+    }
+
+    public void sortDatabaseByDeparture() {
+        db.data.sort(Comparator.comparing(f -> f.departureCity));
+    }
+
+    public void sortDatabaseByArrival() {
+        db.data.sort(Comparator.comparing(f -> f.arrivalCity));
     }
 }
