@@ -3,17 +3,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class Control {
 	private ArrayList<Journey> savedJourneys = new ArrayList<>();
+
+	private final DataBase dataBase = new DataBase();
+	public DataBase getDataBase() { return this.dataBase; };
 
 	ArrayList<Journey> listJourneys(Date departureDate, String departureCity, String arrivalCity) throws ParseException {
 		JourneySearcher searcher = new JourneySearcher();
@@ -72,4 +70,42 @@ public class Control {
 		persistJourneys(empty);
 	}
 
+	ArrayList<String[]> sortFlightsByDepartureCity(String departureCity) {
+		var out = new ArrayList<String[]>();
+
+		dataBase.data.forEach(d -> {
+			if (d[1].equals(departureCity))
+				out.add(d);
+		});
+
+		return out;
+	}
+
+	ArrayList<String[]> sortFlightsByArrivalCity(String arrivalCity) {
+		var out = new ArrayList<String[]>();
+
+		dataBase.data.forEach(d -> {
+			if (d[3].equals(arrivalCity))
+				out.add(d);
+		});
+
+		return out;
+	}
+
+	ArrayList<String[]> sortFlightsByPrice(String[] args) {
+		var out = new ArrayList<String[]>();
+
+		dataBase.data.forEach( d -> {
+			if (d[1].equals(args[1]))
+				out.add(d);
+		});
+
+		out.sort((c1, c2) -> {
+			if (c1[4].equals(c2[4])) return 0;
+			else if (Integer.parseInt(c1[4]) > Integer.parseInt(c2[4])) return 1;
+			else return -1;
+		});
+
+		return out;
+	}
 }
